@@ -3,10 +3,9 @@ import { Alert, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
 import ReactStars from 'react-stars';
-import { years, makes, models } from '../../data';
+import { years } from '../../data';
 import './newreview.css';
 
-const API_KEY = process.env.REACT_APP_API_KEY;
 const backendURL = process.env.REACT_APP_BACKEND_URL;
 
 class NewReviewModal extends Component {
@@ -39,22 +38,37 @@ class NewReviewModal extends Component {
         reviewInputErr: false,
         scoreInputErr: false
       },
-      years: years,
-      makes: makes,
-      models: models,
+      years: [],
+      makes: [],
+      models: [],
       success: false
     };
   }
 
+  convertCSVToMakesArray(csv) {
+    let lines = csv.split('\n');
+
+    let answer = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      let currentline = lines[i].split(',');
+
+      answer.push(currentline[1]);
+    }
+
+    return answer;
+  }
+
   componentDidMount() {
     axios
-      .get(`https://databases.one/api/?format=json&select=make&api_key=${API_KEY}`)
+      .get(`https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=csv`)
       .then(res => {
-        this.setState({ makes: res.data.result || this.state.makes });
+        let responseData = this.convertCSVToMakesArray(res.data);
+        this.setState({ makes: responseData || this.state.makes });
       })
       .catch(err => {
         console.warn(err);
-        alert('There was an error, please reload the page');
+        alert('There was an error loading the makes, please reload the page');
       });
   }
 
@@ -83,8 +97,8 @@ class NewReviewModal extends Component {
       makeId: ''
     };
     this.state.makes.map(make => {
-      if (make === value) newMake.makeId = make;
-      return newMake.makeId;
+      if (make === value) newMake.make = make;
+      return newMake;
     });
 
     const newState = Object.assign({}, this.state);
@@ -92,31 +106,25 @@ class NewReviewModal extends Component {
     newState.review.make = newMake.make;
     newState.displayDropdowns.year = true;
 
-    axios
-      .get(
-        `https://databases.one/api/?format=json&select=year&make_id=${newState.selectedValues.make.makeId}&api_key=${API_KEY}`
-      )
-      .then(res => {
-        newState.years = res.data.result.reverse();
-        this.setState(newState);
-      })
-      .catch(err => console.warn(`There was an error getting the years for that make: \n${err}`));
+    newState.years = years.reverse();
+    this.setState(newState);
   };
 
   handleChangeYear = e => {
     const value = parseInt(e.target.value, 10);
-    const { makeId } = this.state.selectedValues.make;
+    const { make } = this.state.selectedValues.make;
     const newState = Object.assign({}, this.state);
     newState.selectedValues.year = value;
     newState.review.year = value;
     newState.displayDropdowns.model = true;
     axios
       .get(
-        `https://databases.one/api/?format=json&select=model&make_id=${makeId}&api_key=${API_KEY}`
+        `https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformakeyear/make/${make}/modelyear/${value}?format=json`
       )
       .then(res => {
-        newState.models = res.data.result;
-        this.setState(newState);
+        console.log('I am being ran', res);
+        newState.models = res.data.Results;
+        this.setState(newState, () => console.log(this.state));
       });
   };
 
@@ -125,7 +133,7 @@ class NewReviewModal extends Component {
     const newState = Object.assign({}, this.state);
     let modelId;
     this.state.models.map(model => {
-      if (value === model) modelId = model;
+      if (value === model.model) modelId = model.model_id;
       return modelId;
     });
 
@@ -143,7 +151,6 @@ class NewReviewModal extends Component {
         }
       })
       .then(response => {
-        console.log(response);
         this.setState({
           review: {
             year: '',
@@ -288,7 +295,7 @@ class NewReviewModal extends Component {
                 <select className="dropdowns" name="model" onChange={this.handleChangeModels}>
                   <option>Select a Model</option>
                   {this.state.models.map(model => {
-                    return <option key={model}>{model}</option>;
+                    return <option key={model.Model_Name}>{model.Model_Name}</option>;
                   })}
                 </select>
               ) : (
