@@ -1,6 +1,6 @@
 [build]
   command = "npm run build"
-  publish="car-reviews/build"
+  publish="/build"
   base = "car-reviews"
 
 
