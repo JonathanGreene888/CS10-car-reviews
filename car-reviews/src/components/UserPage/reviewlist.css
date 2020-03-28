@@ -15,7 +15,7 @@
 }
 
 .plusButton {
-  background-color: #00887A;
+  background-color: rgba(119, 166, 247, 0.8);
   color: white;
   width: 45px;
   height: 45px;
@@ -24,7 +24,20 @@
   font-style: bold;
   font-size: 1.6rem;
   margin-top: 20px;
-  outline: none !important;
+  border: none;
+}
+
+.plusButton:hover {
+  background-color: #2f77f3;
+  color: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 25px;
+  text-align: center;
+  font-style: bold;
+  font-size: 1.6rem;
+  margin-top: 20px;
+  border: none;
 }
 
 .reviewCardContainer {
@@ -44,6 +57,22 @@
 
 .reviewSpecial {
   background-color: white;
+  color: rgba(119, 166, 247, 0.8);
+  margin: 25px 1rem;
+  width: 200px;
+  min-height: 170px;
+  overflow: hidden;
+  border: none !important;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  /*padding-top: 25px is the only difference between .review and .reviewSpecial to center the New review card. If change made in .review it would change all of the cards due to map method*/
+  padding-top: 25px;
+}
+
+.reviewSpecial:hover {
+  color: white;
+  background-color: rgba(119, 166, 247, 0.8);
   margin: 25px 1rem;
   width: 200px;
   min-height: 170px;
