@@ -9,8 +9,6 @@ import './mainpage.css';
 
 const backendURL = process.env.REACT_APP_BACKEND_URL;
 
-console.log('backend url is : ', backendURL);
-
 // This component generates Review and Reviewer cards. I chose to make the cards using buttons
 // because they will need to be clicked on to open the review page. This is rendered in MainPage.
 
@@ -34,7 +32,6 @@ class MainContent extends Component {
   };
 
   componentDidMount() {
-    this.getUserCounter();
     const deployedPopCars = `${backendURL}/api/popular/popular_cars`;
     const deployedFeatReviews = `${backendURL}/api/popular/featured_reviews`;
     const deployedPopReviewers = `${backendURL}/api/popular/popular_reviewers`;
@@ -57,56 +54,6 @@ class MainContent extends Component {
         console.error('Server Error', error);
       });
   }
-
-  updateUserCounter = () => {
-    const counter = this.state.counter;
-
-    const newDate = this.state.newdate;
-    const oldDate = this.state.olddate;
-
-    const config = {
-      headers: { jwt: localStorage.getItem('jwt') }
-    };
-    axios
-      .put(`${backendURL}/api/users/data`, { counter, newDate }, config)
-      .then(response => {
-        const newstate = { counter: counter + 1 };
-        this.setState(newstate);
-
-        if (
-          (this.state.counter > 3 && !response.data.paid) ||
-          (oldDate === newDate && this.state.counter > 3 && !response.data.paid)
-        ) {
-          alert('Please pay for a subscription or come back tomorrow for more free reviews!');
-          window.location = '/';
-        } else if (this.state.counter <= 3 || response.data.paid) {
-          //do nothing until its time.
-        }
-      })
-      .catch(err => {
-        console.warn(err);
-      });
-  };
-
-  getUserCounter = () => {
-    axios
-      .get(`${backendURL}/api/users/data`, {
-        headers: {
-          JWT: localStorage.getItem('jwt')
-        }
-      })
-      .then(response => {
-        if (this.state.olddate !== this.state.newdate) {
-          console.log('The dates do not match!');
-          const newstate = { counter: 0, olddate: response.data.date };
-          this.setState(newstate);
-        } else {
-          const newstate = { counter: response.data.timesViewed, olddate: response.data.date };
-          this.setState(newstate);
-        }
-      })
-      .catch(err => console.warn(err));
-  };
 
   userToSearch = reviewer => {
     axios
