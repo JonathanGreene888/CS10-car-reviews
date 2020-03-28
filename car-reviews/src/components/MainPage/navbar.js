@@ -60,7 +60,6 @@ class Navbar extends Component {
     event.preventDefault();
     const deployedURL = `${backendURL}/auth/${formType}`;
     const userState = Object.assign({}, this.state[formType]);
-
     axios
       .post(deployedURL, userState)
       .then(res => {
@@ -68,7 +67,7 @@ class Navbar extends Component {
         localStorage.setItem('jwt', res.data.JWT);
         this.setState({
           login: {
-            email: 'Guest@guest.com',
+            email: 'guest@guest.com',
             password: 'guest123!'
           },
           register: {
@@ -123,7 +122,7 @@ class Navbar extends Component {
                   <Fragment />
                 )}
 
-                {this.props.isLoggedIn ? (
+                {this.props.isLoggedIn && this.state.login.email !== 'guest@guest.com' ? (
                   <a className="navbar-item" href="/Settings">
                     Settings
                   </a>
