@@ -76,6 +76,7 @@ class ResultsModal extends Component {
   };
 
   render() {
+    console.log(this.props);
     const { year, make, model, title, content, score, user, carImage } = this.props;
     return (
       <Col lg="3" md="6">

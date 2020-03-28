@@ -1,51 +1,45 @@
 .billing-container {
-    position: absolute;
-    bottom: 0;
-    top: 73px;
-    width: 100% !important;
+  position: absolute;
+  bottom: 0;
+  top: 73px;
+  width: 100% !important;
 }
 
 .element {
-    color: white;
+  color: white;
 }
 
 .card {
-    opacity: 0.9;
+  opacity: 0.9;
 }
 
-
 .PurchaseCard {
-    border: 1px solid black;
-    display: flex;
-    height: 80%;
+  border: 1px solid black;
+  display: flex;
+  height: 80%;
 }
 
 .BillingContainer {
-    text-align: left;
+  text-align: left;
 }
 
 .BuyButton {
-    text-align: center;
+  text-align: center;
 }
 
 .billing-button {
-    height: 32px;
-    margin-right: 10px;
-    background-color: #2F77F3;
-    color: white;
-    border: none !important;
-}
-
-.billing-button:hover {
-    background-color: white;
-    color: #2F77F3;
+  margin-right: 10px;
+  background-color: #2f77f3;
+  color: white;
+  padding: 6px;
+  border-radius: 5px;
 }
 
 .billing-button:focus {
-    background-color: #00887A;
-    color: white;
+  background-color: #00887a;
+  color: white;
 }
 
 .btn-primary {
-    margin: 20px;
+  margin: 20px;
 }

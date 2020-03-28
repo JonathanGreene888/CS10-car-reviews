@@ -33,14 +33,7 @@ class Billing extends Component {
                   <Card style={{ border: 'none' }}>
                     <CardBody>
                       <CardTitle>1 year unlimited reviews: 40% OFF!</CardTitle>
-                      <Button
-                        className="billing-button"
-                        onClick={() =>
-                          this.onPriceClick('Trusted Car Reviews', '1 year unlimited reviews', 6.99)
-                        }
-                      >
-                        $6.99!
-                      </Button>
+                      <span className="billing-button">$6.99!</span>
                       <Checkout
                         name={'Trusted Car Reviews'}
                         description={'1 year unlimited reviews'}
@@ -51,18 +44,7 @@ class Billing extends Component {
                   <Card style={{ border: 'none' }}>
                     <CardBody>
                       <CardTitle>6 month unlimited reviews: 33% OFF!</CardTitle>
-                      <Button
-                        className="billing-button"
-                        onClick={() =>
-                          this.onPriceClick(
-                            'Trusted Car Reviews',
-                            '6 month unlimited reviews',
-                            3.99
-                          )
-                        }
-                      >
-                        $3.99!
-                      </Button>
+                      <span className="billing-button">$3.99!</span>
                       <Checkout
                         name={`Trusted Car Reviews`}
                         description={'6 month unlimited reviews'}
@@ -74,7 +56,7 @@ class Billing extends Component {
                     <CardBody>
                       <CardTitle>1 month unlimited reviews Trial Level</CardTitle>
 
-                      <Button
+                      <span
                         className="billing-button"
                         onClick={() =>
                           this.onPriceClick(
@@ -85,7 +67,7 @@ class Billing extends Component {
                         }
                       >
                         $0.99!
-                      </Button>
+                      </span>
                       <Checkout
                         name={'Trusted Car Reviews'}
                         description={'1 month unlimited reviews'}
