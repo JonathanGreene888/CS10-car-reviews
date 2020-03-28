@@ -46,13 +46,18 @@ class Searchbar extends React.Component {
   convertCSVToMakesArray(csv) {
     let lines = csv.split('\n');
 
-    let answer = [];
+    let answerSet = new Set();
 
-    for (let i = 1; i < lines.length; i++) {
+    for (let i = 1; i < lines.length - 1; i++) {
       let currentline = lines[i].split(',');
 
-      answer.push(currentline[1]);
+      currentline = currentline[1];
+      currentline = currentline.replace(/['"]+/g, '');
+      let capitalizeCurrentLine = currentline.charAt(0).toUpperCase() + currentline.slice(1);
+      answerSet.add(capitalizeCurrentLine);
     }
+
+    let answer = Array.from(answerSet);
 
     return answer;
   }
