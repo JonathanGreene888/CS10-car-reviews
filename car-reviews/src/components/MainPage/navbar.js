@@ -42,6 +42,7 @@ class Navbar extends Component {
         emailValidErr: false
       },
       redirect: false,
+      guest: false,
       type: 'login'
     };
   }
@@ -77,7 +78,8 @@ class Navbar extends Component {
             password: '',
             password2: ''
           },
-          redirect: true
+          redirect: true,
+          guest: true
         });
       })
       .catch(err => {
@@ -88,8 +90,10 @@ class Navbar extends Component {
   };
 
   render() {
-    if (this.state.redirect) {
-      // * OPTIONAL: Have it redirect to whatever page the user was trying to view
+    if (this.state.guest) {
+      window.location.assign('/');
+    }
+    if (this.state.redirect && !this.state.guest) {
       return window.location.reload();
     }
     return (
@@ -133,7 +137,7 @@ class Navbar extends Component {
                 {this.props.isLoggedIn ? (
                   <Fragment />
                 ) : (
-                  <a className="navbar-item" href="/" onClick={this.guestSignIn('login')}>
+                  <a className="navbar-item" href="/guestlogin" onClick={this.guestSignIn('login')}>
                     Guest Sign In
                   </a>
                 )}
